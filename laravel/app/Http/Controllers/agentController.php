@@ -32,9 +32,19 @@ class agentController extends Controller
      */
 
     public function index_agent(){
+        return view('landing.index');
+    }
+
+    public function laporan_index(){
         $laporan = Laporan::orderBy('id', 'desc')->get();
         $reward = Reward::orderBy('id', 'desc')->get();
-        return view('landing.index', compact('laporan', 'reward'));
+        return view('landing.page_laporan', compact('laporan', 'reward'));
+    }
+
+    public function reward_index(){
+        $reward = Reward::orderBy('id', 'desc')->paginate(10);
+        $agent = User::orderBy('id', 'desc')->get();
+        return view('landing.page_reward', compact('reward', 'agent'));
     }
 
     public function logout(Request $request)
