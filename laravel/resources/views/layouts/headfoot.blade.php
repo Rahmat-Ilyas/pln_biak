@@ -96,8 +96,7 @@
         <div class="title_footer grid_title_footer">Kontak</div>
         <div class="button_kontak grid_button_kontak_phone"><span class="text_button_kontak">+62 811-4851-290</span></div>
         <div class="button_kontak mt-2"><span class="text_button_kontak">info.plnup3biak@gmail.com</span></div>
-        <div class="address_footer">Jl. Yos Sudarso No.8 Biak
-        Kode Pos 98234</div>
+        <div class="address_footer">Jl. Yos Sudarso No.8 Biak</div>
       </div>
       {{-- <div class="col-md-4">
         <div class="title_footer grid_title_footer ml-3">Jelajahi</div>
