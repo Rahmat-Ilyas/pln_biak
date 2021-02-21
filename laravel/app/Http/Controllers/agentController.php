@@ -89,6 +89,7 @@ public function daftar_agent(Request $request){
     $request->validate([
         'no_ktp' => 'required|unique:users',
         'email' => 'required|unique:users',
+        'username' => 'required|unique:users|alpha_dash',
         'password' => 'required|min:6'
     ]);
 
@@ -97,6 +98,7 @@ public function daftar_agent(Request $request){
     $user->no_ktp = $request->no_ktp;
     $user->no_telepon = $request->no_telepon;
     $user->email = $request->email;
+    $user->username = $request->username;
     $user->role = 'agent';
     $user->status = 'Active';
     $user->password = Hash::make($request->password);
@@ -120,11 +122,14 @@ public function updateakunagent(Request $request)
     $akun = User::where('id', $request->id)->first();
     if ($akun->no_ktp != $request->no_ktp) 
         $request->validate(['no_ktp' => 'unique:users']);
+    if ($akun->username != $request->username) 
+        $request->validate(['username' => 'unique:users']);
     if ($akun->email != $request->email) 
         $request->validate(['email' => 'unique:users']);
     $akun->name = $request->name;
     $akun->no_ktp = $request->no_ktp;
     $akun->no_telepon = $request->no_telepon;
+    $akun->username = $request->username;
     $akun->email = $request->email;
     if ($request->password) {
         $request->validate(['password' => 'min:6']);

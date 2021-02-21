@@ -64,7 +64,7 @@
   <div class="container">
     <div class="row text-center">
       <div class="col-md-12">
-        <span class="title_info">KETAHUI BAHAYA PENCURIAN LISTRIK</span>
+        <span class="title_info">JENIS & CONTOH PENCURIAN TENAGA LISTRIK</span>
 
         <div class="image_fail">
           <img src="{{ asset('landing/images/image1.png') }}" class="image_info" alt="" srcset="">

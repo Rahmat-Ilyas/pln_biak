@@ -31,6 +31,7 @@
                                 <th>Nama</th>
                                 <th>Nomor KTP</th>
                                 <th>Email</th>
+                                <th>Username</th>
                                 <th>Telepon</th>
                                 <th width="50">Status</th>
                                 <th width="80">Aksi</th>
@@ -141,6 +142,7 @@
                 { data: 'nama', name: 'nama' },
                 { data: 'no_ktp', name: 'no_ktp' },
                 { data: 'email', name: 'email' },
+                { data: 'username', name: 'username' },
                 { data: 'no_telepon', name: 'no_telepon' },
                 { data: 'status', name: 'status' },
                 { data: 'action', name: 'action', orderable: false, searchable: false },

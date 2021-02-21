@@ -30,7 +30,7 @@
           <div class="row">
             <ul class="list_reward">
               <li class="item_reward"><strong>Tanggal : </strong><span class="item_list_reward grid_one">{{ date('d/m/Y', strtotime($rwd->created_at)) }}</span></li>
-              <li class="item_reward"><strong>Nama Agent : <span class="item_list_reward grid_two">{{ $usr->name }}</span></strong></li>
+              <li class="item_reward"><strong>Nama Agent : <span class="item_list_reward grid_two">{{ '@'.$usr->username }}</span></strong></li>
               <li class="item_reward"><strong>Capaian Reward : </strong> <span class="nominal_reward grid_three">Rp. {{ number_format($rwd->nominal) }}</span> </li>
             </ul>
           </div>

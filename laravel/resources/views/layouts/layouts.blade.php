@@ -100,9 +100,21 @@
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label">Email Login</label>
+								<label class="col-sm-3 col-form-label">Email</label>
 								<div class="col-sm-9">
-									<input type="text" class="form-control" required="" placeholder="Email..." autocomplete="off" name="email" value="{{ Auth::user()->email }}">
+									<input type="email" class="form-control" required="" placeholder="Email..." autocomplete="off" name="email" value="{{ Auth::user()->email }}">
+									@error('email')
+									<small class="text-danger"><i>{{ $message }}</i></small><br>
+									@enderror
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label">Username</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" required="" placeholder="Username..." autocomplete="off" name="username" value="{{ Auth::user()->username }}">
+									@error('username')
+									<small class="text-danger"><i>{{ $message }}</i></small><br>
+									@enderror
 								</div>
 							</div>
 							<div class="form-group row">
@@ -127,7 +139,7 @@
 		</div>
 		<footer>
 			<div class="container-fluid">
-				<p class="copyright">&copy; 2017 <a href="https://www.themeineed.com" target="_blank">dasdas</a>. All Rights Reserved.</p>
+				<p class="copyright">&copy; {{ date('Y') }} <a href="https://www.themeineed.com" target="_blank">dasdas</a>. All Rights Reserved.</p>
 			</div>
 		</footer>
 	</div>
@@ -147,6 +159,13 @@
 		$(document).ready(function() {
 			$('#dataTable').DataTable();
 			$(document).tooltip({ selector: '[data-toggle1="tooltip"]' });
+
+			@error('email')
+			$('.modal-account').modal('show');
+			@enderror
+			@error('username')
+			$('.modal-account').modal('show');
+			@enderror
 		});
 	</script>
 </body>

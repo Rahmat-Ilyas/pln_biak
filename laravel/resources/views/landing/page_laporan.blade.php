@@ -5,22 +5,22 @@
     <div class="row justify-content-md-center">
       <div class="col-md-8">
         <div class="title_banner">Laporkan Pelanggaran Listrik</div>
-        <div class="text_banner">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate id nibh etiam egestas diam. 
-          Blandit diam purus habitant vestibulum, hac sagittis. Ante ornare scelerisque scelerisque morbi. 
-        Cursus neque leo purus dictum.</div>
+        <!--<div class="text_banner">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate id nibh etiam egestas diam. -->
+          <!--  Blandit diam purus habitant vestibulum, hac sagittis. Ante ornare scelerisque scelerisque morbi. -->
+          <!--Cursus neque leo purus dictum.</div>-->
 
-        <div class="row grid_button">
-          <button type="button" formtarget="1" class="btnx btnx-banner-white active_nav">Lapor</button>
-          <button type="button" formtarget="2" class="btnx btnx-banner-white">Lacak</button>
-          <button type="button" formtarget="3" class="btnx btnx-banner-white">History Laporan</button>
+          <div class="row grid_button">
+            <button type="button" formtarget="1" class="btnx btnx-banner-white active_nav">Lapor</button>
+            <button type="button" formtarget="2" class="btnx btnx-banner-white">Lacak</button>
+            <button type="button" formtarget="3" class="btnx btnx-banner-white">History Laporan</button>
+          </div>
         </div>
-      </div>
 
-      <div class="col-md-10">
+        <div class="col-md-10">
 
-        <div id="content1" class="box box_grid">
+          <div id="content1" class="box box_grid">
 
-          {{-- CAPTURE --}}
+            {{-- CAPTURE --}}
               {{-- <video autoplay id="video"></video>
               
               <div class="row">
@@ -209,7 +209,7 @@
       </div>
     </div>
 
-    <div class="indikasi">
+{{--     <div class="indikasi">
       <div class="box_indikasi size_box_indikasi">
         <div class="title_indikasi">Ketahui Indikasi Pelanggaran Listrik</div>
         <div class="container">
@@ -226,7 +226,7 @@
        </div>
      </div>
    </div>
- </div>
+ </div> --}}
  @endsection
  @push('script')
  <script>
@@ -243,93 +243,69 @@
   };
   
   $(document).ready(function($) {
+    var headers = {
+      "Accept": "application/json",
+      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
+    }
 
-    @if (Auth::user() && Auth::user()->role != 'admin' && Auth::user()->no_rekening == null)
-      // $('.modal-rek').modal('show');
-      $('.modal-rek').modal({
-        backdrop: 'static',
-        keyboard: false,
-        show: true
-      });
-      @endif
 
-      @isset ($_GET['success'])
-      Swal.fire({
-        title: 'Berhasil Diproses',
-        text: 'Data akun berhasil diperbahaui!',
-        type: 'success'
-      }).then(function() {
-        window.history.pushState('', '', "{{ url('agent') }}")
-      });
-      @endisset
+    $('#formSubmit').submit(function(e) {
+      e.preventDefault();
 
-      @if($errors->any())
-      $('.modal-updtakn').modal('show');
-      @endif
+      var id = $('#id').val();
+      var alamat = $('#alamat').val();
+      var perihal = $('#perihal').val();
 
-      var headers = {
-        "Accept": "application/json",
-        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
+      if (id == '') {
+        Swal.fire({
+          title: 'Login Terlebih Dahulu',
+          text: 'Anda harus login sebelum membuat laporan!',
+          type: 'warning',
+          onClose: () => {
+            location.href = "{{ url('/login') }}";
+          }
+        });
+        return
       }
 
+      if (chek == 0) {
+        Swal.fire({
+          title: 'Lampirkan Foto!',
+          text: 'Paastikan anda telah melampirkan foto',
+          type: 'warning'
+        });
+        return
+      }
 
-      $('#formSubmit').submit(function(e) {
-        e.preventDefault();
+      formData.append('id', id);
+      formData.append('alamat', alamat);
+      formData.append('perihal', perihal);
 
-        var id = $('#id').val();
-        var alamat = $('#alamat').val();
-        var perihal = $('#perihal').val();
-
-        if (id == '') {
+      $.ajax({
+        url: "{{ url('/createlaporan') }}",
+        enctype: "multipart/form-data",
+        method: "POST",
+        headers: headers,
+        data: formData,
+        success: function (data) {
           Swal.fire({
-            title: 'Login Terlebih Dahulu',
-            text: 'Anda harus login sebelum membuat laporan!',
-            type: 'warning',
+            title: 'Berhasil Diproses',
+            text: 'Laporan berhasil dibuat',
+            type: 'success',
             onClose: () => {
-              location.href = "{{ url('/login') }}";
+              location.href = "{{ url('/agent') }}";
             }
           });
-          return
-        }
-
-        if (chek == 0) {
-          Swal.fire({
-            title: 'Lampirkan Foto!',
-            text: 'Paastikan anda telah melampirkan foto',
-            type: 'warning'
-          });
-          return
-        }
-
-        formData.append('id', id);
-        formData.append('alamat', alamat);
-        formData.append('perihal', perihal);
-
-        $.ajax({
-          url: "{{ url('/createlaporan') }}",
-          enctype: "multipart/form-data",
-          method: "POST",
-          headers: headers,
-          data: formData,
-          success: function (data) {
-            Swal.fire({
-              title: 'Berhasil Diproses',
-              text: 'Laporan berhasil dibuat',
-              type: 'success',
-              onClose: () => {
-                location.href = "{{ url('/agent') }}";
-              }
-            });
-          },
-          contentType: false,
-          processData: false,
-        });
-
+        },
+        contentType: false,
+        processData: false,
       });
 
     });
+
+  });
   
   
   
-  </script>
-  @endpush
+</script>
+@endpush

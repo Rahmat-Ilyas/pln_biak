@@ -89,7 +89,7 @@
 
   @yield('konten_isi')
 
- <footer>
+  <footer>
    <div class="container">
     <div class="row pb-5">
       <div class="col-md-4">
@@ -100,7 +100,7 @@
           Kabupaten Biak
         Kode Pos 98234</div>
       </div>
-      <div class="col-md-4">
+      {{-- <div class="col-md-4">
         <div class="title_footer grid_title_footer ml-3">Jelajahi</div>
         <div class="text_footer_item ml-3">Top Agent</div>
         <div class="text_footer_item ml-3">Sub Halaman 1</div>
@@ -110,10 +110,10 @@
         <div class="title_footer grid_title_footer">Social Media</div>
         <img src="{{asset('landing/images/youtube.png')}}" alt="" srcset="">
         <img src="{{asset('landing/images/instagram.png')}}" alt="" srcset="">
-      </div>
+      </div> --}}
     </div>
     <div class="row">
-      <div class="col-md-12"><div class="text_copyright">2020 Powered by PT. PLN (Persero) UP3 Biak</div></div>
+      <div class="col-md-12"><div class="text_copyright">{{ date('Y') }} Powered by PT. PLN (Persero) UP3 Biak</div></div>
     </div>
   </div>
 </footer>
@@ -160,6 +160,15 @@
                 <input type="email" class="form-control" name="email" placeholder="Email..." required="" autocomplete="off" value="{{ old('email') ? old('email') : $usr->email }}">
                 @error('email')
                 <small class="text-danger"><i>Email telah digunakan</i></small>
+                @enderror
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 form-label">Username</label>
+              <div class="col-sm-8">
+                <input type="username" class="form-control" name="username" placeholder="Username..." required="" autocomplete="off" value="{{ old('username') ? old('username') : $usr->username }}">
+                @error('username')
+                <small class="text-danger"><i>Username telah digunakan</i></small>
                 @enderror
               </div>
             </div>
@@ -257,6 +266,29 @@
 <script>
   $(document).ready(function($) {
     $(document).tooltip({ selector: '[data-toggle1="tooltip"]' });
+
+    @if (Auth::user() && Auth::user()->role != 'admin' && Auth::user()->no_rekening == null)
+    // $('.modal-rek').modal('show');
+    $('.modal-rek').modal({
+      backdrop: 'static',
+      keyboard: false,
+      show: true
+    });
+    @endif
+
+    @isset ($_GET['success'])
+    Swal.fire({
+      title: 'Berhasil Diproses',
+      text: 'Data akun berhasil diperbahaui!',
+      type: 'success'
+    }).then(function() {
+      window.history.pushState('', '', "{{ url('agent') }}")
+    });
+    @endisset
+
+    @if($errors->any())
+    $('.modal-updtakn').modal('show');
+    @endif
   });
 </script>
 @stack('script')

@@ -45,16 +45,30 @@ class LoginController extends Controller
     {
         $input = $request->all();
         $this->validate($request,[
-            'email'=> 'required|email',
+            'email'=> 'required',
             'password' => 'required'
         ]);   
 
-        $credential = [
+        $credential_email = [
             'email' => $request->email,
             'password' => $request->password,
         ];
 
-        if (Auth::attempt($credential)) {
+        $credential_username = [
+            'username' => $request->email,
+            'password' => $request->password,
+        ];
+
+        $login = false;
+        if (Auth::attempt($credential_email)) {
+            $login = true;
+            $credential = $credential_email;
+        } else if (Auth::attempt($credential_username)) {
+            $login = true;
+            $credential = $credential_username;
+        }
+
+        if ($login == true) {
             $auth = Auth::user();
             if ($auth->role == 'admin') {
                 Auth::guard('admin')->attempt($credential);
@@ -64,12 +78,12 @@ class LoginController extends Controller
                     Auth::guard('agent')->attempt($credential);
                     return redirect()->intended(route('agent.home'));
                 } else {
-                    return redirect()->back()->withInput($request->only('username', 'password'))->with('errors', 'Akun ini sedang di suspend');
+                    return redirect()->back()->withInput($request->only('email', 'password'))->with('errors', 'Akun ini sedang di suspend');
                 }
             }
         }
 
-        return redirect()->back()->withInput($request->only('username', 'password'))->with('errors', 'Username atau password tidak sesuai');
+        return redirect()->back()->withInput($request->only('email', 'password'))->with('errors', 'Username atau password tidak sesuai');
 
     }
 

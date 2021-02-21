@@ -1260,8 +1260,11 @@ body{
   }
 
   .image_fail_size{
-    position: relative;
-    
+    margin-top:50px;
+  }
+  
+  .image_fail_size1{
+    margin-top: 10px;
   }
 
   .reward_agent_title{
@@ -1295,4 +1298,21 @@ body{
   .nominal_reward{
     font-size: 18px;
   }
+  
+   .title_reward{
+    font-size: 24px;
+  }
+
+  .text_reward{
+     font-size: 18px;
+  }
+
+  .notif_reward span{
+    font-size: 18px;
+  }
+
+  .image-reward{
+    margin-top: 50px;
+  }
+  
 }

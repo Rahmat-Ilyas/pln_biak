@@ -70,6 +70,21 @@
                 </span>
                 @enderror
               </div>
+
+              <div class="form-group">
+                <label for="username" class="labels_login">Username</label>
+                <input type="username" class="form-control grid_control_form_auth @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="off" autofocus placeholder="Username...">
+                @error('username')
+                <span class="invalid-feedback ml-5" role="alert">
+                  @if($message == 'The username has already been taken.')
+                  <strong>Username telah terdaftar di sistem</strong>
+                  @else
+                  <strong>Masukkan huruf, angka dan simbol "_" atau "-"</strong>
+                  @endif
+                </span>
+                @enderror
+              </div>
+
               <div class="form-group">
                 <label for="password" class="labels_login">Password</label>
                 <input type="password" class="form-control grid_control_form_auth @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password...">

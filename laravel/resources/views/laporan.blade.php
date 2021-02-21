@@ -198,7 +198,7 @@ $usr = $users->where('id', $dta->id_users)->first();
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Nama Agent</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" disabled="" value="{{ $usr->name }}">
+                            <input type="text" class="form-control" disabled="" value="{{ $usr->name }} ({{ '@'.$usr->username }})">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -257,6 +257,7 @@ $usr = $users->where('id', $dta->id_users)->first();
         return `<div style="margin-left: 40px;">
         <div style="margin-bottom: 10px;"><b>Alamat Laporan: </b><span>`+dta.alamat+`</span></div>
         <div style="margin-bottom: 10px;"><b>Email Agent: </b><span>`+dta.email+`</span></div>
+        <div style="margin-bottom: 10px;"><b>Username: </b><span>@`+dta.username+`</span></div>
         <div style="margin-bottom: 10px;"><b>Telepon Agent: </b><span>`+dta.no_telepon+`</span></div>
         <div style="margin-bottom: 10px;"><b>Status Reward: </b><span>`+dta.status_reward+`</span></div>
         `+dta.btn_reward+`

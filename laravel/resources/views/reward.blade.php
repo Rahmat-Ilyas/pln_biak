@@ -29,7 +29,7 @@
                             <tr>
                                 <th width="10">No</th>
                                 <th>Kode Laporan</th>
-                                <th>Nama Agent (No KTP)</th>
+                                <th>Nama Agent</th>
                                 <th>Nominal Reward</th>
                                 <th>Status Reward</th>
                                 <th>Tanggal</th>
@@ -81,7 +81,7 @@ $usr = $users->where('id', $dta->agent_id)->first();
                     </li>
                     <li class="list-group-item row">
                         <b class="col-sm-4 p-0">Nama Agent </b>
-                        <span class="col-sm-8 p-0">: {{ $usr->name }}</span>
+                        <span class="col-sm-8 p-0">: {{ $usr->name }} ({{ '@'.$usr->username }})</span>
                     </li>
                     <li class="list-group-item row">
                         <b class="col-sm-4 p-0">Nomor KTP </b>

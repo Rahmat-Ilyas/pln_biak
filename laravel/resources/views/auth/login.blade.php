@@ -30,8 +30,8 @@
                                 <form method="POST" action="{{ route('login') }}">
                                   @csrf
                                     <div class="form-group">
-                                      <label for="alamat" class="labels_login">E-Mail</label>
-                                      <input type="email" class="form-control grid_control_form_auth @if(Session::get('errors')) is-invalid @endif" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                      <label for="alamat" class="labels_login">E-Mail/Username</label>
+                                      <input type="username" class="form-control grid_control_form_auth @if(Session::get('errors')) is-invalid @endif" name="email" value="{{ old('email') }}" required autocomplete="off" autofocus>
                                     </div>
                                     <div class="form-group">
                                       <label for="perihal" class="labels_login">Password</label>
