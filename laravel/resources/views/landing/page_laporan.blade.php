@@ -1,5 +1,97 @@
 @extends('layouts.headfoot')
 @section('konten_isi')
+<style type="text/css">
+  #loading {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color:rgba(255,255,255,0.5);
+  }
+
+  /*-- css spin --*/
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /*-- css loader --*/
+  .no-js #loader { display: none; }
+  .js #loader { display: block; position: absolute; left: 100px; top: 0; }
+
+  .loader {
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #3498db;
+    border-bottom: 10px solid #FFC107;
+    width: 100px;
+    height: 100px;
+    left: 45.6%;
+    top: 38%;
+    -webkit-animation: spin 2s linear infinite;
+    position: fixed;
+    animation: spin 2s linear infinite;
+  }
+
+  .textLoader{
+    position: fixed;
+    top: 56%;
+    left: 45.6%;
+    color: #34495e;
+  }
+
+  /*-- responsive --*/
+  @media screen and (max-width: 1034px){
+    .textLoader{
+      left: 46.2%;
+    }
+  }
+
+  @media screen and (max-width: 824px){
+    .textLoader {
+      left: 47.2%;
+    }
+  }
+
+  @media screen and (max-width: 732px){
+    .textLoader {
+      left: 48.2%;
+    }
+  }
+
+  @media screen and (max-width: 500px){
+    .loader{
+      left: 36.5%;;
+    }
+    .textLoader {
+      left: 40.5%;
+    }
+  }
+
+  @media screen and (max-height: 432px){
+    .textLoader {
+      top: 65%;
+    }
+  }
+
+  @media screen and (max-height: 350px){
+    .textLoader {
+      top: 75%;
+    }
+  }
+
+  @media screen and (max-height: 312px){
+    .textLoader {
+      display: none;
+    }
+  }
+</style>
 <div class="banner">
   <div class="container">
     <div class="row justify-content-md-center">
@@ -140,8 +232,8 @@
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                           <h4 class="modal-title" id="myModalLabel">Bukti Transfer Pembayaran</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
                         <div class="modal-body" id="set-media">
                           <img src="{{ asset('assets/img/foto_bukti/'.$rwd->foto_bukti) }}" class="img-responsive img-thumbnail" style="width: 100%; margin-bottom: 10px;">
@@ -209,6 +301,15 @@
       </div>
     </div>
 
+    <div id="loading" hidden="">
+      <span class="loader" hidden=""></span>
+      <div class="textLoader">
+        <center>
+          <b>Memproses ... </b>
+        </center>
+      </div>
+    </div>
+
 {{--     <div class="indikasi">
       <div class="box_indikasi size_box_indikasi">
         <div class="title_indikasi">Ketahui Indikasi Pelanggaran Listrik</div>
@@ -234,11 +335,22 @@
   var chek = 0
   
   Dropzone.options.myAwesomeDropzone = {
+    timeout: 60000*120,
+    acceptedFiles: 'image/*',
+    dictDefaultMessage: 'Klik untuk memilih foto',
     init: function() {
       this.on("addedfile", function(file) {
         formData.append('file[]', file);
         chek = chek + 1;
       });
+    },
+    error: function(file, error) {
+      Swal.fire({
+        title: 'Terjadi Kesalahan',
+        text: error,
+        type: 'error'
+      });
+      this.removeFile(file);
     }
   };
   
@@ -287,13 +399,23 @@
         method: "POST",
         headers: headers,
         data: formData,
+        xhr: function () {
+          var xhr = new window.XMLHttpRequest();
+          xhr.upload.addEventListener('progress', function (evt) {
+            if (evt.lengthComputable) {
+              $("#loading, .loader").removeAttr('hidden');
+            }
+          }, false);
+          return xhr;
+        },
         success: function (data) {
+          $("#loading, .loader").attr('hidden', '');
           Swal.fire({
             title: 'Berhasil Diproses',
             text: 'Laporan berhasil dibuat',
             type: 'success',
             onClose: () => {
-              location.href = "{{ url('/agent') }}";
+              location.href = "{{ url('/laporan') }}";
             }
           });
         },
