@@ -43,7 +43,7 @@
 
               <div class="form-group">
                 <label for="username" class="labels_login">Nama Agent (Nama Samaran)</label>
-                <input type="username" class="form-control grid_control_form_auth @error('username') is-invalid @enderror" name="text" value="{{ old('username') }}" required autocomplete="off" autofocus placeholder="Nama Samaran...">
+                <input type="text" class="form-control grid_control_form_auth @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="off" autofocus placeholder="Nama Samaran...">
                 @error('username')
                 <span class="invalid-feedback ml-5" role="alert">
                   @if($message == 'The username has already been taken.')

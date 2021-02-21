@@ -74,7 +74,29 @@ class HomeController extends Controller
     		$updt_agent->password = Hash::make($request->password);
     	$updt_agent->save();
 
-    	return redirect('admin/data-agent?success=true');
+    	return redirect('admin/data-agent?success=update');
+    }
+
+    public function hapusagent($id)
+    {
+        $agent = User::where('id', $id)->first();
+        $laporan = Laporan::where('id_users', $id)->get();
+
+        foreach ($laporan as $dta) {
+            $media = Media::where('laporan_id', $dta->id)->get();
+            foreach ($media as $fto) {
+                File::delete('assets/img/laporan/'.$fto->foto);
+            }
+            $reward = Reward::where('laporan_id', $dta->id)->first();
+            if ($reward) {
+                File::delete('assets/img/foto_bukti/'.$reward->foto_bukti);
+                $reward->delete();
+            }
+            $dta->delete();
+        }
+        $agent->delete();
+
+        return redirect('admin/data-agent?success=delete');
     }
 
     public function updateprogress(Request $request)
@@ -257,8 +279,9 @@ class HomeController extends Controller
     		return Datatables::of($data)
     		->addColumn('action', function($dta) {
     			return '
-    			<a href="#" class="btn btn-sm btn-primary" style="margin-bottom: 10px; margin-top: 10px;" data-toggle1="tooltip" title="Update Akun Agent" data-toggle="modal" data-target=".modal-foto'.$dta->id.'"><i class="fa fa-user"></i> Update Akun</a>';
-    		})->rawColumns(['action', 'status'])->toJson();
+    			<a href="#" class="btn btn-sm btn-primary" style="margin-bottom: 10px; margin-top: 10px;" data-toggle1="tooltip" title="Update Akun Agent" data-toggle="modal" data-target=".modal-foto'.$dta->id.'"><i class="fa fa-user"></i> Update Akun</a>
+                <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target=".modal-del'.$dta->id.'" data-toggle1="tooltip" title="Hapus Data Agent"><i class="fa fa-trash"></i> Hapus Akun</a>';
+            })->rawColumns(['action', 'status'])->toJson();
     	} else if ($request->req == 'dataReward') {
     		$result = Reward::orderBy('id', 'desc')->get();
     		$data = [];

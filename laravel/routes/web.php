@@ -26,6 +26,7 @@ Route::post('/agent/setrek', 'agentController@setrek');
 Route::post('/agent/updateakun', 'agentController@updateakunagent');
 Route::get('/admin/laporan', 'HomeController@laporan');
 Route::get('/admin/data-agent', 'HomeController@dataagent');
+Route::get('/admin/hapusagent/{id}', 'HomeController@hapusagent');
 Route::post('/admin/updateakunagent', 'HomeController@edtakunagent');
 Route::post('/admin/updateprogress', 'HomeController@updateprogress');
 Route::post('/admin/updateakun', 'HomeController@updateakun');

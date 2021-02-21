@@ -34,7 +34,7 @@
                                 <th>Username</th>
                                 <th>Telepon</th>
                                 <th width="50">Status</th>
-                                <th width="80">Aksi</th>
+                                <th width="150">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -100,6 +100,27 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL HAPUS -->
+<div class="modal modal-del{{ $dta->id }}" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Yakin ingin menghapus?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Semua data laporan dan reward agent ini akan di hapus!
+            </div>
+            <div class="modal-footer bg-whitesmoke br">
+                <a href="{{ url('admin/hapusagent/'.$dta->id) }}" role="button" class="btn btn-danger">Hapus</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+            </div>
         </div>
     </div>
 </div>
@@ -185,6 +206,7 @@
         }
 
         @isset ($_GET['success'])
+        @if ($_GET['success'] == 'update') 
         Swal.fire({
             title: 'Berhasil Diupdate',
             text: 'Akun agent berhasil diupdate!',
@@ -192,6 +214,15 @@
         }).then(function() {
             window.history.pushState('', '', "{{ url('admin/data-agent') }}")
         });
+        @elseif ($_GET['success'] == 'delete') 
+        Swal.fire({
+            title: 'Berhasil Dihapus',
+            text: 'Akun agent telah berhasil dihapus!',
+            type: 'success'
+        }).then(function() {
+            window.history.pushState('', '', "{{ url('admin/data-agent') }}")
+        });
+        @endif
         @endisset
     });
 </script>
