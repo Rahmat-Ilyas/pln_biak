@@ -42,6 +42,20 @@
               </div>
 
               <div class="form-group">
+                <label for="username" class="labels_login">Nama Samaran</label>
+                <input type="username" class="form-control grid_control_form_auth @error('username') is-invalid @enderror" name="text" value="{{ old('username') }}" required autocomplete="off" autofocus placeholder="Nama Samaran...">
+                @error('username')
+                <span class="invalid-feedback ml-5" role="alert">
+                  @if($message == 'The username has already been taken.')
+                  <strong>Nama Samaran telah terdaftar di sistem</strong>
+                  @else
+                  <strong>Masukkan huruf, angka dan simbol "_" atau "-"</strong>
+                  @endif
+                </span>
+                @enderror
+              </div>
+
+              <div class="form-group">
                 <label for="alamat" class="labels_login">Nomor KTP</label>
                 <input type="number" class="form-control grid_control_form_auth @error('no_ktp') is-invalid @enderror" name="no_ktp" value="{{ old('no_ktp') }}" required autocomplete="off" autofocus placeholder="Nomor KTP...">
                 @error('no_ktp')
@@ -67,20 +81,6 @@
                 @error('email')
                 <span class="invalid-feedback ml-5" role="alert">
                   <strong>Email telah terdaftar di sistem</strong>
-                </span>
-                @enderror
-              </div>
-
-              <div class="form-group">
-                <label for="username" class="labels_login">Username</label>
-                <input type="username" class="form-control grid_control_form_auth @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="off" autofocus placeholder="Username...">
-                @error('username')
-                <span class="invalid-feedback ml-5" role="alert">
-                  @if($message == 'The username has already been taken.')
-                  <strong>Username telah terdaftar di sistem</strong>
-                  @else
-                  <strong>Masukkan huruf, angka dan simbol "_" atau "-"</strong>
-                  @endif
                 </span>
                 @enderror
               </div>
